@@ -52,7 +52,7 @@ app.post('/xhrupload', function (req, res){
 	// fix filename:
 	name = utils.removeFileExt(name).replace(/([^a-z0-9]+)/gi, '-') + path.extname(name);
 	name = Date.now() + '_' + name;
-	var uploadedFile = path.join('public/data', name);
+	var uploadedFile = path.join(__dirname, 'public/data', name);
 
 	var writeStream = fs.createWriteStream( uploadedFile );
 
@@ -64,11 +64,9 @@ app.post('/xhrupload', function (req, res){
 		writeStream.end();
 		console.log("XHR Upload done:", uploadedFile);
 
-		fs.readdir('public/data', function (err, files) {
+		fs.readdir( path.join(__dirname, 'public/data') , function (err, files) {
 			res.send({err: 0, numberofuploadedfiles: files.length});
 		});
-
-
 
 	});
 });
